@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Gift, History, Home, Loader2, Lock, Minus, Plus, RefreshCw, Smartphone, Star, Ticket, Undo2 } from 'lucide-react';
+import { Gift, History, Home, KeyRound, Loader2, Lock, Minus, Plus, RefreshCw, Smartphone, Star, Ticket, Undo2 } from 'lucide-react';
 import {
   Coupon, cancelCoupon, couponState, coupons, daysLeft, giveStars, mathWishCoupons, setHubPin, spendHistory,
   useCoupon, useMathWish, useWallet,
@@ -9,6 +9,7 @@ import {
   onAceSyncStatus, runAceSync, setAceSyncSettings,
 } from '../ace/aceSync';
 import { shortDate, toast } from '../ui';
+import { geminiKeySource, maskKey, setHubGeminiKey } from '../ace/settings';
 
 function Section({ icon, title, children, right }: { icon: React.ReactNode; title: string; children: React.ReactNode; right?: React.ReactNode }) {
   return (
@@ -37,6 +38,10 @@ export default function Parent({ onHome }: { onHome: () => void }) {
   const [busy, setBusy] = useState(false);
   const [connectError, setConnectError] = useState('');
   const [newPin, setNewPin] = useState('');
+  const [keyInput, setKeyInput] = useState('');
+  const [keyVer, setKeyVer] = useState(0);
+  const keySrc = geminiKeySource();
+  void keyVer;
   const [giftAmount, setGiftAmount] = useState(5);
   const [giftNote, setGiftNote] = useState('');
   const give = (sign: 1 | -1) => {
@@ -80,7 +85,7 @@ export default function Parent({ onHome }: { onHome: () => void }) {
     <div className="min-h-[100dvh] bg-slate-50 pb-20">
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200 px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <button onClick={onHome} className="p-2 hover:bg-slate-100 rounded-full transition-colors" aria-label="처음 화면"><Home size={20} className="text-slate-600" /></button>
+          <button onClick={onHome} className="p-2 hover:bg-slate-100 rounded-full transition-colors" aria-label="에이스 홈으로"><Home size={20} className="text-slate-600" /></button>
           <h2 className="font-bold text-slate-900">에이스 홈 · 부모님</h2>
         </div>
         <div className="bg-trust-100 text-trust-700 text-[10px] font-black px-2 py-1 rounded-md tracking-wider">ADMIN</div>
@@ -200,6 +205,38 @@ export default function Parent({ onHome }: { onHome: () => void }) {
               </div>
             </div>
           )}
+        </Section>
+
+        <Section icon={<KeyRound size={18} className="text-trust-600" />} title="AI 키 (Gemini) · 모든 에이스 공통">
+          <p className="text-sm text-slate-500 leading-relaxed">
+            여기에 한 번 넣으면 수학 에이스(채점·힌트·피드백)와 한자 에이스(칭찬 피드백)가 함께 써요. 키는 이 기기 안에만 저장되고 서버로 보내지 않아서, 기기마다 한 번씩 넣어 주세요.
+          </p>
+          <div className="text-sm bg-slate-50 rounded-xl p-3 text-slate-600">
+            지금 쓰는 키: {keySrc.key
+              ? <><strong className="font-mono">{maskKey(keySrc.key)}</strong> <span className="text-slate-400">({keySrc.from === 'hub' ? '에이스 홈에 넣은 키' : keySrc.from === 'math' ? '수학 에이스에 넣어 둔 키' : '한자 에이스에 넣어 둔 키'})</span></>
+              : <span className="text-rose-500 font-bold">없음 (AI 기능이 꺼져 있어요)</span>}
+          </div>
+          <div className="flex gap-2">
+            <input type="password" className="input-field flex-1 bg-slate-50" placeholder="AIza..." autoComplete="off"
+              value={keyInput} onChange={e => setKeyInput(e.target.value)} />
+            <button className="btn-secondary px-6" onClick={() => {
+              if (!keyInput.trim()) { toast('키를 입력해 주세요'); return; }
+              setHubGeminiKey(keyInput); setKeyInput(''); setKeyVer(v => v + 1); toast('모든 에이스에 키를 넣었어요');
+            }}>저장</button>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {keySrc.from && keySrc.from !== 'hub' && (
+              <button className="text-xs font-bold text-trust-600 px-3 py-2 rounded-lg border border-trust-200 bg-trust-50" onClick={() => {
+                setHubGeminiKey(keySrc.key); setKeyVer(v => v + 1); toast('이 키를 모든 에이스에서 함께 써요');
+              }}>지금 키를 에이스 홈 키로 쓰기</button>
+            )}
+            {keySrc.from === 'hub' && (
+              <button className="text-xs font-bold text-slate-400 px-3 py-2" onClick={() => {
+                if (!window.confirm('에이스 홈 키를 지울까요? 각 앱에 따로 넣어 둔 키가 있으면 그 키를 써요.')) return;
+                setHubGeminiKey(''); setKeyVer(v => v + 1); toast('에이스 홈 키를 지웠어요');
+              }}>에이스 홈 키 지우기</button>
+            )}
+          </div>
         </Section>
 
         <Section icon={<Lock size={18} className="text-slate-400" />} title="에이스 홈 PIN">

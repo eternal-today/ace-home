@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Calculator, ChevronRight, Crown, Home as HomeIcon, Sparkles, Star, Ticket } from 'lucide-react';
+import { Calculator, ChevronRight, Crown, Lock, Sparkles, Star, Ticket } from 'lucide-react';
 import { TIERS } from '../ace/chances';
 import { LINKS } from '../ace/links';
 import { childName, couponState, coupons, mathWishCoupons, spendHistory, useWallet } from '../ace/wallet';
 import { CloseButton, Sheet, shortDate } from '../ui';
 
-interface Props { onLanding: () => void; onShop: () => void; onCoupons: () => void }
+interface Props { onParent: () => void; onShop: () => void; onCoupons: () => void }
 
-export default function Home({ onLanding, onShop, onCoupons }: Props) {
+export default function Home({ onParent, onShop, onCoupons }: Props) {
   const w = useWallet();
   const name = childName();
   const [ledgerOpen, setLedgerOpen] = useState(false);
@@ -32,9 +32,9 @@ export default function Home({ onLanding, onShop, onCoupons }: Props) {
   return (
     <div className="min-h-[100dvh] overflow-y-auto p-6">
       <header className="flex justify-between items-center mb-6 max-w-lg landscape:max-w-5xl mx-auto w-full">
-        <button onClick={onLanding} aria-label="처음 화면"
-          className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm border border-slate-100 text-slate-400">
-          <HomeIcon size={20} />
+        <button onClick={onParent} aria-label="부모님 모드"
+          className="h-12 px-4 bg-white rounded-2xl flex items-center gap-1.5 shadow-sm border border-slate-100 text-sm font-bold text-slate-500 active:scale-95 transition-transform">
+          <Lock size={16} className="text-slate-400" />부모님
         </button>
         <button onClick={() => setLedgerOpen(true)} aria-label="내 별 장부"
           className="bg-white px-5 py-2.5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-3 active:scale-95 transition-transform">
