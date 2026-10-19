@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Gift, History, Home, KeyRound, Loader2, Lock, Minus, Plus, RefreshCw, Smartphone, Star, Ticket, Undo2 } from 'lucide-react';
 import {
-  Coupon, cancelCoupon, couponState, coupons, daysLeft, giveStars, mathWishCoupons, setHubPin, spendHistory,
+  Coupon, cancelCoupon, couponState, coupons, daysLeft, giveStars, hubPinProblem, mathWishCoupons, setHubPin, spendHistory,
   useCoupon, useMathWish, useWallet,
 } from '../ace/wallet';
 import {
@@ -244,11 +244,12 @@ export default function Parent({ onHome }: { onHome: () => void }) {
             <input type="password" inputMode="numeric" maxLength={4} className="input-field flex-1 bg-slate-50" placeholder="새 PIN 4자리"
               value={newPin} onChange={e => setNewPin(e.target.value.replace(/\D/g, ''))} />
             <button className="btn-secondary px-6" onClick={() => {
-              if (newPin.length !== 4) { toast('PIN은 4자리예요'); return; }
+              const problem = hubPinProblem(newPin);
+              if (problem) { toast(problem); return; }
               setHubPin(newPin); setNewPin(''); toast('PIN을 바꿨어요');
             }}>변경</button>
           </div>
-          <p className="text-[11px] text-slate-400">처음에는 수학 에이스의 PIN과 같아요. 바꾸면 에이스 홈에서만 새 PIN을 써요.</p>
+          <p className="text-[11px] text-slate-400">별과 쿠폰을 다루는 곳이라 수학·한자 에이스 PIN과 다른 번호를 써요. 이 기기에만 저장되니 기기마다 정해 주세요.</p>
         </Section>
 
         <Section icon={<Smartphone size={18} className="text-slate-400" />} title="홈 화면에 추가하기">

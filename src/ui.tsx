@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import confetti from 'canvas-confetti';
 import { CheckCircle2, Delete, Lock, X } from 'lucide-react';
-import { hubPin } from './ace/wallet';
+import { hubPin, hubPinProblem, setHubPin, subjectPins } from './ace/wallet';
 
 // ── 어디서든 부를 수 있는 알림·PIN 확인 (한자 에이스와 같은 방식) ──
 type ToastFn = (msg: string) => void;
@@ -62,7 +62,10 @@ export function Overlays() {
   const [msg, setMsg] = useState('');
   const [pinReq, setPinReq] = useState<{ purpose: string; action: () => void } | null>(null);
   const [buffer, setBuffer] = useState('');
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | false>(false);
+  // 에이스 홈 PIN이 아직 없으면: 과목 앱 PIN으로 확인 → 새 PIN → 한 번 더
+  const [stage, setStage] = useState<'enter' | 'verify' | 'new' | 'confirm'>('enter');
+  const [first, setFirst] = useState('');
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | null = null;
@@ -71,24 +74,43 @@ export function Overlays() {
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => setMsg(''), 2800);
     };
-    pinImpl = (purpose, action) => { setBuffer(''); setError(false); setPinReq({ purpose, action }); };
+    pinImpl = (purpose, action) => { setBuffer(''); setError(false); setFirst(''); setStage(hubPin() ? 'enter' : 'verify'); setPinReq({ purpose, action }); };
     return () => { if (timer) clearTimeout(timer); toastImpl = () => { }; pinImpl = () => { }; };
   }, []);
 
+  const fail = (m: string) => {
+    setError(m);
+    setTimeout(() => { setBuffer(''); setError(false); }, 1200);
+  };
+  const done = () => {
+    const action = pinReq!.action;
+    setPinReq(null); setBuffer(''); setStage('enter');
+    action();
+  };
   const press = (n: number) => {
-    if (buffer.length >= 4 || !pinReq) return;
+    if (buffer.length >= 4 || !pinReq || error) return;
     const next = buffer + n;
     setBuffer(next);
     if (next.length < 4) return;
-    if (next === hubPin()) {
-      const action = pinReq.action;
-      setPinReq(null); setBuffer('');
-      action();
+    if (stage === 'enter') {
+      if (next === hubPin()) done(); else fail('PIN 번호가 올바르지 않습니다.');
+    } else if (stage === 'verify') {
+      if (subjectPins().includes(next)) { setBuffer(''); setStage('new'); } else fail('PIN 번호가 올바르지 않습니다.');
+    } else if (stage === 'new') {
+      const problem = hubPinProblem(next);
+      if (problem) fail(problem); else { setFirst(next); setBuffer(''); setStage('confirm'); }
     } else {
-      setError(true);
-      setTimeout(() => { setBuffer(''); setError(false); }, 700);
+      if (next !== first) { setFirst(''); setStage('new'); fail('두 번 넣은 번호가 달라요. 처음부터 다시 넣어 주세요'); return; }
+      setHubPin(next);
+      toast('에이스 홈 PIN을 만들었어요');
+      done();
     }
   };
+  const title = stage === 'enter' ? '부모님 인증' : '에이스 홈 PIN 만들기';
+  const guide = stage === 'enter' ? (pinReq?.purpose || 'PIN 번호 4자리를 입력하세요')
+    : stage === 'verify' ? '먼저 수학 에이스(또는 한자 에이스) PIN을 넣어 주세요'
+      : stage === 'new' ? '에이스 홈에서만 쓸 새 PIN을 정해 주세요. 별과 쿠폰을 다루니 아이가 모르는 번호로 정해요'
+        : '같은 번호를 한 번 더 넣어 주세요';
 
   return (
     <>
@@ -108,8 +130,8 @@ export function Overlays() {
             <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
               className="bg-white rounded-[2.5rem] p-8 w-full max-w-xs text-center shadow-2xl max-h-[96dvh] overflow-y-auto">
               <div className="w-14 h-14 bg-slate-100 rounded-2xl mx-auto mb-4 flex items-center justify-center"><Lock size={26} className="text-slate-400" /></div>
-              <h3 className="text-xl font-black text-slate-900 mb-1 font-display">부모님 인증</h3>
-              <p className="text-sm text-slate-400 mb-6 font-medium">{pinReq.purpose || 'PIN 번호 4자리를 입력하세요'}</p>
+              <h3 className="text-xl font-black text-slate-900 mb-1 font-display">{title}</h3>
+              <p className="text-sm text-slate-400 mb-6 font-medium break-keep">{guide}</p>
               <div className="flex justify-center gap-4 mb-6">
                 {[0, 1, 2, 3].map(i => (
                   <div key={i} className={`w-4 h-4 rounded-full border-2 transition-all ${buffer.length > i ? 'bg-trust-600 border-trust-600 scale-110' : 'border-slate-200'}`} />
@@ -119,11 +141,11 @@ export function Overlays() {
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => (
                   <button key={n} className="py-3 bg-slate-50 rounded-2xl text-xl font-black text-slate-700 transition-colors active:bg-trust-100 select-none" {...tap(() => press(n))}>{n}</button>
                 ))}
-                <button className="py-3 flex items-center justify-center text-slate-300 hover:text-slate-500" aria-label="닫기" onClick={() => { setPinReq(null); setBuffer(''); }}><X size={24} /></button>
+                <button className="py-3 flex items-center justify-center text-slate-300 hover:text-slate-500" aria-label="닫기" onClick={() => { setPinReq(null); setBuffer(''); setStage('enter'); }}><X size={24} /></button>
                 <button className="py-3 bg-slate-50 rounded-2xl text-xl font-black text-slate-700 transition-colors active:bg-trust-100 select-none" {...tap(() => press(0))}>0</button>
                 <button className="py-3 flex items-center justify-center text-slate-300 hover:text-slate-500" aria-label="지우기" {...tap(() => setBuffer(b => b.slice(0, -1)))}><Delete size={20} /></button>
               </div>
-              {error && <div className="text-rose-500 mt-4 text-sm font-bold">PIN 번호가 올바르지 않습니다.</div>}
+              {error && <div className="text-rose-500 mt-4 text-sm font-bold break-keep">{error}</div>}
             </motion.div>
           </motion.div>
         )}
