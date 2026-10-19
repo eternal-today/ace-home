@@ -93,13 +93,14 @@ export default function Parent({ onHome }: { onHome: () => void }) {
 
       <main className="p-6 max-w-2xl mx-auto space-y-6">
         <Section icon={<Star size={18} className="text-amber-400" />} title="아이의 별">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+          <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 text-center">
             <div className="bg-blue-50 rounded-xl p-3"><div className="text-xl font-black text-blue-600">{w.mathEarned}</div><div className="text-[11px] font-bold text-blue-700">수학 번 별</div></div>
             <div className="bg-violet-50 rounded-xl p-3"><div className="text-xl font-black text-violet-600">{w.hanjaEarned}</div><div className="text-[11px] font-bold text-violet-700">한자 번 별</div></div>
+            <div className="bg-amber-50 rounded-xl p-3"><div className="text-xl font-black text-amber-700">{w.englishEarned}</div><div className="text-[11px] font-bold text-amber-800">영어 번 별</div></div>
             <div className="bg-slate-50 rounded-xl p-3"><div className="text-xl font-black text-slate-600">{w.spent}</div><div className="text-[11px] font-bold text-slate-500">쓴 별</div></div>
             <div className="bg-amber-50 rounded-xl p-3"><div className="text-xl font-black text-amber-600">{w.balance}</div><div className="text-[11px] font-bold text-amber-700">남은 별</div></div>
           </div>
-          <p className="text-xs text-slate-400">합산 번 별 {w.earned}개 · 명예의 전당 {w.hallCount}번{w.gifted !== 0 ? ` · 부모님이 준 별 ${w.gifted > 0 ? '+' : ''}${w.gifted}개` : ''} · 오늘 수학 {w.todayMath}문제, 한자 {w.todayHanja}문제</p>
+          <p className="text-xs text-slate-400">합산 번 별 {w.earned}개 · 명예의 전당 {w.hallCount}번{w.gifted !== 0 ? ` · 부모님이 준 별 ${w.gifted > 0 ? '+' : ''}${w.gifted}개` : ''} · 오늘 수학 {w.todayMath}문제, 한자 {w.todayHanja}문제, 영어 {w.todayEnglish}문제</p>
         </Section>
 
         <Section icon={<Gift size={18} className="text-emerald-500" />} title="별 주기 · 빼기">
@@ -249,14 +250,14 @@ export default function Parent({ onHome }: { onHome: () => void }) {
               setHubPin(newPin); setNewPin(''); toast('PIN을 바꿨어요');
             }}>변경</button>
           </div>
-          <p className="text-[11px] text-slate-400">별과 쿠폰을 다루는 곳이라 수학·한자 에이스 PIN과 다른 번호를 써요. 이 기기에만 저장되니 기기마다 정해 주세요.</p>
+          <p className="text-[11px] text-slate-400">별과 쿠폰을 다루는 곳이라 수학·한자·영어 에이스 PIN과 다른 번호를 써요. 이 기기에만 저장되니 기기마다 정해 주세요.</p>
         </Section>
 
         <Section icon={<Smartphone size={18} className="text-slate-400" />} title="홈 화면에 추가하기">
           <div className="flex gap-2 p-3 bg-slate-50 rounded-xl border border-slate-100">
             <div className="w-10 h-10 bg-trust-600 rounded-lg flex items-center justify-center text-white shrink-0 shadow-sm"><Plus size={20} /></div>
             <div className="text-[11px] text-slate-500 leading-snug flex items-center">
-              아이 태블릿에서 에이스 홈을 홈 화면에 추가해 두면 여기서 수학·한자로 바로 갈 수 있어요.<br />
+              아이 태블릿에서 에이스 홈을 홈 화면에 추가해 두면 여기서 수학·한자·영어로 바로 갈 수 있어요.<br />
               아이폰: 공유 버튼 → 홈 화면에 추가 · 안드로이드: 메뉴 → 홈 화면에 추가
             </div>
           </div>

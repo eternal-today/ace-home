@@ -27,6 +27,11 @@ export default function Home({ onParent, onShop, onCoupons }: Props) {
       icon: <span className="hanja text-4xl text-white">漢</span>,
       bg: 'from-[#8556f2] to-[#5b2fc9]', shadow: 'shadow-violet-200',
     },
+    {
+      key: 'english', name: '영어 에이스', href: LINKS.english, today: w.todayEnglish,
+      icon: <span className="text-2xl font-black text-white tracking-tight">ABC</span>,
+      bg: 'from-[#c8961f] to-[#94680f]', shadow: 'shadow-amber-200',
+    },
   ];
 
   return (
@@ -118,7 +123,7 @@ export default function Home({ onParent, onShop, onCoupons }: Props) {
                 <div className="text-4xl">👑</div>
                 <div className="flex-1 min-w-0">
                   <div className="font-black text-lg">명예의 전당 {w.hallCount > 1 ? `${w.hallCount}번째` : ''}</div>
-                  <div className="text-xs opacity-90 font-bold">수학과 한자로 별 {w.earned}개를 모은 에이스!</div>
+                  <div className="text-xs opacity-90 font-bold">모든 과목에서 별 {w.earned}개를 모은 에이스!</div>
                 </div>
               </div>
               <div className="mt-3 text-xs font-bold opacity-90">다음 명예의 전당까지 별 {nextHall - w.earned}개</div>
@@ -130,7 +135,7 @@ export default function Home({ onParent, onShop, onCoupons }: Props) {
             <div className="bg-white rounded-[1.5rem] border border-slate-100 p-5">
               <div className="flex items-center gap-2 font-black text-slate-700"><Crown size={20} className="text-brand-500" />명예의 전당</div>
               <div className="flex justify-between text-xs font-bold mt-2 mb-1.5">
-                <span className="text-slate-400">수학과 한자로 모은 별 100개</span>
+                <span className="text-slate-400">모든 과목에서 모은 별 100개</span>
                 <span className="text-brand-600">{100 - w.earned}개 남았어요</span>
               </div>
               <div className="bg-slate-100 h-2.5 rounded-full overflow-hidden">
@@ -163,7 +168,7 @@ export function Ledger({ onClose }: { onClose: () => void }) {
         </div>
         <CloseButton onClick={onClose} />
       </div>
-      <div className="grid grid-cols-3 gap-2 text-center">
+      <div className="grid grid-cols-2 gap-2 text-center">
         <div className="bg-blue-50 rounded-2xl p-3">
           <div className="text-xl font-black text-blue-600 font-display">{w.mathEarned}</div>
           <div className="text-[11px] font-bold text-blue-700">수학에서 번 별</div>
@@ -171,6 +176,10 @@ export function Ledger({ onClose }: { onClose: () => void }) {
         <div className="bg-violet-50 rounded-2xl p-3">
           <div className="text-xl font-black text-violet-600 font-display">{w.hanjaEarned}</div>
           <div className="text-[11px] font-bold text-violet-700">한자에서 번 별</div>
+        </div>
+        <div className="bg-amber-50 rounded-2xl p-3">
+          <div className="text-xl font-black text-amber-600 font-display">{w.englishEarned}</div>
+          <div className="text-[11px] font-bold text-amber-700">영어에서 번 별</div>
         </div>
         <div className="bg-slate-50 rounded-2xl p-3">
           <div className="text-xl font-black text-slate-600 font-display">{w.spent}</div>
