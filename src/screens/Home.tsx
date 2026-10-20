@@ -30,7 +30,7 @@ export default function Home({ onParent, onShop, onCoupons }: Props) {
     {
       key: 'english', name: '영어 에이스', href: LINKS.english, today: w.todayEnglish,
       icon: <span className="text-2xl font-black text-white tracking-tight">ABC</span>,
-      bg: 'from-[#c8961f] to-[#94680f]', shadow: 'shadow-amber-200',
+      bg: 'from-[#d9774f] to-[#a24d2e]', shadow: 'shadow-orange-200',
     },
   ];
 
@@ -177,9 +177,9 @@ export function Ledger({ onClose }: { onClose: () => void }) {
           <div className="text-xl font-black text-violet-600 font-display">{w.hanjaEarned}</div>
           <div className="text-[11px] font-bold text-violet-700">한자에서 번 별</div>
         </div>
-        <div className="bg-amber-50 rounded-2xl p-3">
-          <div className="text-xl font-black text-amber-600 font-display">{w.englishEarned}</div>
-          <div className="text-[11px] font-bold text-amber-700">영어에서 번 별</div>
+        <div className="bg-orange-50 rounded-2xl p-3">
+          <div className="text-xl font-black text-orange-600 font-display">{w.englishEarned}</div>
+          <div className="text-[11px] font-bold text-orange-700">영어에서 번 별</div>
         </div>
         <div className="bg-slate-50 rounded-2xl p-3">
           <div className="text-xl font-black text-slate-600 font-display">{w.spent}</div>

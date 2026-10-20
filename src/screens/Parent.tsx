@@ -96,7 +96,7 @@ export default function Parent({ onHome }: { onHome: () => void }) {
           <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 text-center">
             <div className="bg-blue-50 rounded-xl p-3"><div className="text-xl font-black text-blue-600">{w.mathEarned}</div><div className="text-[11px] font-bold text-blue-700">수학 번 별</div></div>
             <div className="bg-violet-50 rounded-xl p-3"><div className="text-xl font-black text-violet-600">{w.hanjaEarned}</div><div className="text-[11px] font-bold text-violet-700">한자 번 별</div></div>
-            <div className="bg-amber-50 rounded-xl p-3"><div className="text-xl font-black text-amber-700">{w.englishEarned}</div><div className="text-[11px] font-bold text-amber-800">영어 번 별</div></div>
+            <div className="bg-orange-50 rounded-xl p-3"><div className="text-xl font-black text-orange-600">{w.englishEarned}</div><div className="text-[11px] font-bold text-orange-700">영어 번 별</div></div>
             <div className="bg-slate-50 rounded-xl p-3"><div className="text-xl font-black text-slate-600">{w.spent}</div><div className="text-[11px] font-bold text-slate-500">쓴 별</div></div>
             <div className="bg-amber-50 rounded-xl p-3"><div className="text-xl font-black text-amber-600">{w.balance}</div><div className="text-[11px] font-bold text-amber-700">남은 별</div></div>
           </div>
