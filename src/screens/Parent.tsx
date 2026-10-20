@@ -210,7 +210,7 @@ export default function Parent({ onHome }: { onHome: () => void }) {
 
         <Section icon={<KeyRound size={18} className="text-trust-600" />} title="AI 키 (Gemini) · 모든 에이스 공통">
           <p className="text-sm text-slate-500 leading-relaxed">
-            여기에 한 번 넣으면 수학 에이스(채점·힌트·피드백)와 한자 에이스(칭찬 피드백)가 함께 써요. 키는 이 기기 안에만 저장되고 서버로 보내지 않아서, 기기마다 한 번씩 넣어 주세요.
+            여기에 한 번 넣으면 모든 에이스가 함께 써요. 동기화 서버로 가족 코드로 잠가서 보내기 때문에, 한 기기에서 넣으면 다른 기기에도 적용돼요.
           </p>
           <div className="text-sm bg-slate-50 rounded-xl p-3 text-slate-600">
             지금 쓰는 키: {keySrc.key
@@ -250,7 +250,7 @@ export default function Parent({ onHome }: { onHome: () => void }) {
               setHubPin(newPin); setNewPin(''); toast('PIN을 바꿨어요');
             }}>변경</button>
           </div>
-          <p className="text-[11px] text-slate-400">별과 쿠폰을 다루는 곳이라 수학·한자·영어 에이스 PIN과 다른 번호를 써요. 이 기기에만 저장되니 기기마다 정해 주세요.</p>
+          <p className="text-[11px] text-slate-400">별과 쿠폰을 다루는 곳이라 수학·한자·영어 에이스 PIN과 다른 번호를 써요. 한 기기에서 바꾸면 다른 기기에도 적용돼요.</p>
         </Section>
 
         <Section icon={<Smartphone size={18} className="text-slate-400" />} title="홈 화면에 추가하기">
