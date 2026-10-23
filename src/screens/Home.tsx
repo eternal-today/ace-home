@@ -32,6 +32,11 @@ export default function Home({ onParent, onShop, onCoupons }: Props) {
       icon: <span className="text-2xl font-black text-white tracking-tight">ABC</span>,
       bg: 'from-[#d9774f] to-[#a24d2e]', shadow: 'shadow-orange-200',
     },
+    {
+      key: 'thinking', name: '생각 에이스', href: LINKS.thinking, today: w.todayThinking,
+      icon: <span className="text-3xl">🌳</span>,
+      bg: 'from-[#149fa6] to-[#106870]', shadow: 'shadow-teal-200',
+    },
   ];
 
   return (
@@ -180,6 +185,10 @@ export function Ledger({ onClose }: { onClose: () => void }) {
         <div className="bg-orange-50 rounded-2xl p-3">
           <div className="text-xl font-black text-orange-600 font-display">{w.englishEarned}</div>
           <div className="text-[11px] font-bold text-orange-700">영어에서 번 별</div>
+        </div>
+        <div className="bg-teal-50 rounded-2xl p-3">
+          <div className="text-xl font-black text-teal-600 font-display">{w.thinkingEarned}</div>
+          <div className="text-[11px] font-bold text-teal-700">생각에서 번 별</div>
         </div>
         <div className="bg-slate-50 rounded-2xl p-3">
           <div className="text-xl font-black text-slate-600 font-display">{w.spent}</div>

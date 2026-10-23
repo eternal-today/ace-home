@@ -108,7 +108,7 @@ export function Overlays() {
   };
   const title = stage === 'enter' ? '부모님 인증' : '에이스 홈 PIN 만들기';
   const guide = stage === 'enter' ? (pinReq?.purpose || 'PIN 번호 4자리를 입력하세요')
-    : stage === 'verify' ? '먼저 수학·한자·영어 에이스 가운데 한 곳의 PIN을 넣어 주세요'
+    : stage === 'verify' ? '먼저 수학·한자·영어·생각 에이스 가운데 한 곳의 PIN을 넣어 주세요'
       : stage === 'new' ? '에이스 홈에서만 쓸 새 PIN을 정해 주세요. 별과 쿠폰을 다루니 아이가 모르는 번호로 정해요'
         : '같은 번호를 한 번 더 넣어 주세요';
 
