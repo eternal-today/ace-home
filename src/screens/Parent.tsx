@@ -93,15 +93,14 @@ export default function Parent({ onHome }: { onHome: () => void }) {
 
       <main className="p-6 max-w-2xl mx-auto space-y-6">
         <Section icon={<Star size={18} className="text-amber-400" />} title="아이의 별">
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 text-center">
+          <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 text-center">
             <div className="bg-blue-50 rounded-xl p-3"><div className="text-xl font-black text-blue-600">{w.mathEarned}</div><div className="text-[11px] font-bold text-blue-700">수학 번 별</div></div>
             <div className="bg-violet-50 rounded-xl p-3"><div className="text-xl font-black text-violet-600">{w.hanjaEarned}</div><div className="text-[11px] font-bold text-violet-700">한자 번 별</div></div>
             <div className="bg-orange-50 rounded-xl p-3"><div className="text-xl font-black text-orange-600">{w.englishEarned}</div><div className="text-[11px] font-bold text-orange-700">영어 번 별</div></div>
-            <div className="bg-teal-50 rounded-xl p-3"><div className="text-xl font-black text-teal-600">{w.thinkingEarned}</div><div className="text-[11px] font-bold text-teal-700">생각 번 별</div></div>
             <div className="bg-slate-50 rounded-xl p-3"><div className="text-xl font-black text-slate-600">{w.spent}</div><div className="text-[11px] font-bold text-slate-500">쓴 별</div></div>
             <div className="bg-amber-50 rounded-xl p-3"><div className="text-xl font-black text-amber-600">{w.balance}</div><div className="text-[11px] font-bold text-amber-700">남은 별</div></div>
           </div>
-          <p className="text-xs text-slate-400">합산 번 별 {w.earned}개 · 명예의 전당 {w.hallCount}번{w.gifted !== 0 ? ` · 부모님이 준 별 ${w.gifted > 0 ? '+' : ''}${w.gifted}개` : ''} · 오늘 수학 {w.todayMath}문제, 한자 {w.todayHanja}문제, 영어 {w.todayEnglish}문제, 생각 {w.todayThinking}문제</p>
+          <p className="text-xs text-slate-400">합산 번 별 {w.earned}개 · 명예의 전당 {w.hallCount}번{w.gifted !== 0 ? ` · 부모님이 준 별 ${w.gifted > 0 ? '+' : ''}${w.gifted}개` : ''} · 오늘 수학 {w.todayMath}문제, 한자 {w.todayHanja}문제, 영어 {w.todayEnglish}문제, 생각 {w.todayThinking}문제 (생각은 별 없이 나무에 물을 줘요)</p>
         </Section>
 
         <Section icon={<Gift size={18} className="text-emerald-500" />} title="별 주기 · 빼기">

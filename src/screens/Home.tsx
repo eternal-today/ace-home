@@ -186,10 +186,6 @@ export function Ledger({ onClose }: { onClose: () => void }) {
           <div className="text-xl font-black text-orange-600 font-display">{w.englishEarned}</div>
           <div className="text-[11px] font-bold text-orange-700">영어에서 번 별</div>
         </div>
-        <div className="bg-teal-50 rounded-2xl p-3">
-          <div className="text-xl font-black text-teal-600 font-display">{w.thinkingEarned}</div>
-          <div className="text-[11px] font-bold text-teal-700">생각에서 번 별</div>
-        </div>
         <div className="bg-slate-50 rounded-2xl p-3">
           <div className="text-xl font-black text-slate-600 font-display">{w.spent}</div>
           <div className="text-[11px] font-bold text-slate-500">쓴 별</div>
